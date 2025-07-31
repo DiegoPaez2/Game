@@ -1278,3 +1278,6 @@ position = Vector2(-25, -15)
 
 [node name="CharacterBody2D2" parent="." instance=ExtResource("12_q7asl")]
 position = Vector2(163, -37)
+
+[node name="CharacterBody2D3" parent="." instance=ExtResource("12_q7asl")]
+position = Vector2(2044, -27)
