@@ -1,0 +1,103 @@
+[gd_scene load_steps=10 format=3 uid="uid://btnq7uscfi0mw"]
+
+[ext_resource type="Script" uid="uid://2awfn41j5yd6" path="res://Scripts/menu.gd" id="1_ouk20"]
+[ext_resource type="Texture2D" uid="uid://6q2otxym4oy" path="res://Images/MENU.png" id="2_ouk20"]
+[ext_resource type="FontFile" uid="uid://b22mdagcmjd4r" path="res://Fuentes/Spirit Fox.otf" id="3_mae5d"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ytr4m"]
+bg_color = Color(0.329412, 0.458824, 0.929412, 1)
+border_color = Color(0.918851, 0.79268, 0.330087, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4hy44"]
+bg_color = Color(0.00203858, 0.00758226, 0.0295788, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l48gv"]
+bg_color = Color(0.329412, 0.458824, 0.929412, 1)
+shadow_color = Color(0.851769, 0.851769, 0.851769, 0.6)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ouk20"]
+bg_color = Color(0.00392157, 0.00784314, 0.0313726, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ecwwl"]
+bg_color = Color(0.659342, 0.235669, 0.0608219, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mae5d"]
+bg_color = Color(0.548528, 0.0139069, 0.054155, 1)
+
+[node name="Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ouk20")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.025139, 0.137372, 0.300886, 1)
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_ouk20")
+expand_mode = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -618.0
+offset_top = -198.0
+offset_right = 17.0
+offset_bottom = 211.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_constants/separation = 80
+
+[node name="Individual" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("3_mae5d")
+theme_override_font_sizes/font_size = 70
+theme_override_styles/hover = SubResource("StyleBoxFlat_ytr4m")
+theme_override_styles/normal = SubResource("StyleBoxFlat_4hy44")
+text = "JUGADOR INDIVIDUAL
+"
+
+[node name="Multi" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("3_mae5d")
+theme_override_font_sizes/font_size = 70
+theme_override_styles/hover = SubResource("StyleBoxFlat_l48gv")
+theme_override_styles/normal = SubResource("StyleBoxFlat_ouk20")
+text = "MULTIJUGADOR
+"
+
+[node name="Salir" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_fonts/font = ExtResource("3_mae5d")
+theme_override_font_sizes/font_size = 70
+theme_override_styles/hover = SubResource("StyleBoxFlat_ecwwl")
+theme_override_styles/normal = SubResource("StyleBoxFlat_mae5d")
+text = "SALIR
+"
+
+[connection signal="pressed" from="VBoxContainer/Individual" to="." method="_on_individual_pressed"]
+[connection signal="pressed" from="VBoxContainer/Multi" to="." method="_on_multi_pressed"]
+[connection signal="pressed" from="VBoxContainer/Salir" to="." method="_on_salir_pressed"]
