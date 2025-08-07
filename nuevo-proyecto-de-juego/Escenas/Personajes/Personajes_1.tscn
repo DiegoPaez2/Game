@@ -34,7 +34,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("3_obwyr")
 }],
-"loop": true,
+"loop": false,
 "name": &"Caer",
 "speed": 10.0
 }, {
@@ -109,12 +109,13 @@ animations = [{
 size = Vector2(11, 30)
 
 [node name="CharacterBody2D" type="CharacterBody2D" groups=["Player"]]
+collision_layer = 32897
+collision_mask = 32897
 script = ExtResource("1_wyqj0")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_46edy")
 animation = &"Reposo"
-frame_progress = 0.877798
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-5, 6)

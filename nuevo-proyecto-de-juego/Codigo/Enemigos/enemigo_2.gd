@@ -1,55 +1,58 @@
 extends CharacterBody2D
 
-@export var velocidad := 70
-@export var gravedad := 800
+var VELOCIDAD = 50
+var movimiento = Vector2.ZERO
+var forgod = true
+var GRAVITY = 20
 
-var direccion := 1
-var persiguiendo := false
-var jugador: Node2D = null
+var puede_girar = true
 
-@onready var ray_izq = $dect_izq
-@onready var ray_der = $dect_dere
-@onready var sprite = $AnimatedSprite2D
+func _process(_delta):
+	hit()
 
-func _physics_process(delta):
+func _physics_process(delta: float) -> void:
 	# Aplicar gravedad
-	velocity.y += gravedad * delta
+	movimiento.y += GRAVITY
 
-	if persiguiendo and jugador:
-		var direccion_x = jugador.global_position.x - global_position.x
-		direccion = sign(direccion_x)
-		velocity.x = direccion * velocidad
+	# ATAQUE si detecta al jugador con raycasts
+	if $dect_izq.is_colliding():
+		$Sprite2D.flip_h = true
+		$AnimationPlayer.play("AtacarIzq")
+		movimiento.x = 0
+
+
+	elif $dect_dere.is_colliding():
+		$Sprite2D.flip_h = false
+		$AnimationPlayer.play("AtacarDere")
+		movimiento.x = 0
+	
+
 	else:
-		# Patrullaje automático
-		if ray_der.is_colliding():
-			direccion = -1
-		elif ray_izq.is_colliding():
-			direccion = 1
-		velocity.x = direccion * velocidad
+		# Cambiar dirección al chocar con pared (solo si se permite)
+		if is_on_wall() and puede_girar:
+			forgod = not forgod
+			puede_girar = false
+			# Espera 0.2 segundos antes de volver a permitir el giro
+			await get_tree().create_timer(0.2).timeout
+			puede_girar = true
 
+		# Movimiento horizontal y animación
+		if forgod:
+			movimiento.x = VELOCIDAD
+			$AnimationPlayer.play("Caminar")
+			$Sprite2D.flip_h = false
+		else:
+			movimiento.x = -VELOCIDAD
+			$AnimationPlayer.play("Caminar")
+			$Sprite2D.flip_h = true
+
+	# Asignar la velocidad al cuerpo
+	velocity = movimiento
 	move_and_slide()
+	
 
-	# Flip del sprite
-	sprite.flip_h = direccion < 0
-
-	# Animaciones
-	if abs(velocity.x) > 0:
-		if sprite.animation != "Caminar" or not sprite.is_playing():
-			sprite.play("Caminar")
-	else:
-		if sprite.animation != "Idle" or not sprite.is_playing():
-			sprite.play("Idle")
-
-# Señal de detección del jugador
-func _on_area_2d_body_entered(body):
-	if body.name == "Jugador":
-		jugador = body
-		persiguiendo = true
-		print("Jugador detectado")
-
-# Señal de salida del jugador
-func _on_area_2d_body_exited(body):
-	if body == jugador:
-		jugador = null
-		persiguiendo = false
-		print("Jugador perdido")
+func hit():
+	if $hit_izq.is_colliding():
+		Global.vida -= 1
+	if $hit_dere.is_colliding():
+		Global.vida -= 1
